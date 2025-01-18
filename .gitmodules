@@ -1,0 +1,6 @@
+[submodule "luajit"]
+	path = luajit
+	url = https://luajit.org/git/luajit.git
+[submodule "cimgui"]
+	path = cimgui
+	url = https://github.com/cimgui/cimgui
