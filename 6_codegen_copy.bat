@@ -2,15 +2,15 @@
 :: 24/9/24 00:28 fkelava
 
 @echo off
-@set NETTFM=net7.0
+@set NETTFM=net9.0
 
-@set SRCDIR=..\artifacts\build\CodeGenerator\Debug\%NETTFM%
-@set DESTDIR=%~dp0fh-imgui-net\src\ImGui.NET\Generated
+@set SRCDIR=..\fh\artifacts\build\Fahrenheit.Core.ImGui.NET.CG\Debug\%NETTFM%
+@set DESTDIR=%~dp0..\fh\src\imgui\Generated
 
 :: Clean any existing generated output, then remake the generated directory.
 rd /s /q %DESTDIR%
 mkdir %DESTDIR%
 :: Then inform the code generator to place its output in the destination directory.
 cd %SRCDIR%
-dotnet CodeGenerator.dll %DESTDIR%
+dotnet fhimguicg.dll %DESTDIR%
  

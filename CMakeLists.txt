@@ -10,6 +10,7 @@ else()
 	set(TABLES_SOURCE "")
 endif()
 
+
 #general settings
 file(GLOB IMGUI_SOURCES
     cimgui/cimgui.cpp
@@ -27,10 +28,10 @@ set(IMGUI_FREETYPE "no" CACHE STRING "Build with freetype library")
 set(IMGUI_LIBRARIES )
 
 if(IMGUI_FREETYPE)
+	message(STATUS "Building with freetype")
 	FIND_PACKAGE(freetype REQUIRED PATHS ${FREETYPE_PATH})
 	list(APPEND IMGUI_LIBRARIES freetype)
-	list(APPEND IMGUI_SOURCES cimgui/imgui/misc/freetype/imgui_freetype.cpp)
-	add_definitions("-DCIMGUI_FREETYPE=1")
+	list(APPEND IMGUI_SOURCES imgui/misc/freetype/imgui_freetype.cpp)
 endif(IMGUI_FREETYPE)
 
 #add library and link
@@ -40,6 +41,16 @@ else (IMGUI_STATIC)
     add_library(cimgui SHARED ${IMGUI_SOURCES})
 endif (IMGUI_STATIC)
 
+if(IMGUI_FREETYPE)
+	target_compile_definitions(cimgui PUBLIC IMGUI_ENABLE_FREETYPE)
+	target_compile_definitions(cimgui PUBLIC IMGUI_ENABLE_STB_TRUETYPE)
+endif(IMGUI_FREETYPE)
+
+if(IMGUI_WCHAR32)
+	target_compile_definitions(cimgui PUBLIC IMGUI_USE_WCHAR32)
+endif(IMGUI_WCHAR32)
+
+add_definitions("-DIMGUI_USER_CONFIG=\"../cimconfig.h\"")
 target_compile_definitions(cimgui PUBLIC IMGUI_DISABLE_OBSOLETE_FUNCTIONS=1)
 if (WIN32)
     target_compile_definitions(cimgui PUBLIC IMGUI_IMPL_API=extern\t\"C\"\t__declspec\(dllexport\))
